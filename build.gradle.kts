@@ -1,28 +1,41 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version "1.5.10"
+	id("org.springframework.boot") version "2.5.4"
+	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	kotlin("jvm") version "1.5.21"
+	kotlin("plugin.spring") version "1.5.21"
 }
 
 group = "com.mthaler"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
+configurations {
+	compileOnly {
+		extendsFrom(configurations.annotationProcessor.get())
+	}
+}
+
 repositories {
 	mavenCentral()
 }
 
 dependencies {
+	implementation("org.jboss.pnc.build-agent:logback:1.0.1")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.12.3")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
-	implementation("io.arrow-kt:arrow-core:0.13.2")
-	implementation("com.fasterxml.jackson.core:jackson-core:2.12.3")
-	implementation("com.fasterxml.jackson.core:jackson-annotations:2.12.3")
-	implementation("com.fasterxml.jackson.core:jackson-databind:2.12.3")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
-	testImplementation("io.kotest:kotest-runner-junit5:4.3.2")
-	testImplementation("io.kotest:kotest-assertions-core:4.3.2")
+	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+	runtimeOnly("com.h2database:h2")
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+	testImplementation("org.springframework.security:spring-security-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,1 +1,1 @@
-rootProject.name = "order-taking"
+rootProject.name = "spring-taco-kotlin"
